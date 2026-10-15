@@ -44,6 +44,19 @@ function isAdmin(userId: number): boolean {
   return userId === adminId;
 }
 
+function returnAddress(): string {
+  return [
+    "",
+    "",
+    `💡 Игры проходят в культурном центре "GOROD"`,
+    "",
+    `📍Адрес: Arnulfstr 197, 3 этаж, зал 3.12`,
+    "",
+    `🚗 Удобнее всего ехать до остановки 16/17 трамвая под названием Briefzentrum. На месте имеется бесплатная парковка`,
+    ""
+  ].join("\n");
+}
+
 bot.command("start", async (ctx) => {
   if (!isAdmin(ctx.from.id)) {
     await ctx.reply("Нет доступа.");
@@ -83,7 +96,7 @@ bot.on("message:text", async (ctx) => {
       apiToken,
     );
 
-    const text = formatTournament(tournament);
+    const text = formatTournament(tournament) + returnAddress();
     const postId = String(nextPostId++);
 
     pendingPosts.set(postId, {
